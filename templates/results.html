@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索结果</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>搜索结果</h1>
+        <div id="results" class="results-container">
+            {% if results %}
+                {% for repo in results %}
+                    <div class="repo" onclick="window.open('{{ repo.url }}', '_blank')">
+                        <h2>{{ repo.name }}</h2>
+                        <p>{{ repo.description or 'No description available.' }}</p>
+                        <p>Stars: {{ repo.stars }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No repositories found.</p>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('index') }}" class="back-button">返回搜索</a>
+    </div>
+</body>
+</html>
