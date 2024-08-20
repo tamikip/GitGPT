@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>搜索结果</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="static/logo.png" type="image/png">
 </head>
 <body>
     <div class="container">
@@ -15,7 +16,8 @@
                     <div class="repo" onclick="window.open('{{ repo.url }}', '_blank')">
                         <h2>{{ repo.name }}</h2>
                         <p>{{ repo.description or 'No description available.' }}</p>
-                        <p>Stars: {{ repo.stars }}</p>
+                        <p>⭐: {{ repo.stars }}</p>
+                        <p>Language: {{ repo.language }}</p>
                     </div>
                 {% endfor %}
             {% else %}
