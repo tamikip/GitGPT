@@ -30,7 +30,7 @@ body {
 }
 
 .logo {
-    width: 100px; /* 设置宽度 */
+    width: 80px; /* 设置宽度 */
     height: auto; /* 高度自动调整 */
     margin-right: 20px; /* 图片与标题之间的间距 */
 }
@@ -141,4 +141,119 @@ h1 {
 
 .back-button:hover {
     background-color: #0056b3;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-top: 10px; /* 调整开关按钮与搜索框之间的距离 */
+}
+
+.error-message {
+    color: red;
+    font-size: 20px;
+    display: none;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.label-text {
+    margin-left: 10px;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.switch-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+/* 针对小屏幕的调整 */
+@media (max-width: 600px) {
+    .container {
+        width: 90%; /* 减少页面左右留白 */
+        margin-top: -30px; /* 调整容器的位置 */
+    }
+
+    .header {
+        flex-direction: column; /* 垂直排列图片和标题 */
+    }
+
+    .logo {
+        width: 60px; /* 缩小 logo 尺寸 */
+        margin-right: 0; /* 去除 logo 与标题之间的间距 */
+        margin-bottom: 10px; /* 在 logo 和标题之间增加垂直间距 */
+    }
+
+    h1 {
+        font-size: 40px; /* 缩小标题字体 */
+    }
+
+    .search-box {
+        width: 100%; /* 搜索框拉满宽度 */
+        font-size: 18px; /* 缩小字体 */
+        padding: 10px; /* 减小内边距 */
+    }
+
+    .search-button {
+        margin-top: 20px;
+        font-size: 18px; /* 缩小按钮字体 */
+        padding: 10px 20px; /* 调整按钮大小 */
+    }
+
+    .switch-container {
+        margin-top: 20px; /* 增加开关按钮与其他元素的间距 */
+    }
+
+    .repo h2 {
+        font-size: 20px; /* 缩小结果标题字体 */
+    }
+
+    .repo p {
+        font-size: 16px; /* 缩小结果描述字体 */
+    }
+
+    .back-button {
+        font-size: 18px; /* 缩小返回按钮字体 */
+        padding: 10px 20px; /* 调整返回按钮大小 */
+    }
 }
