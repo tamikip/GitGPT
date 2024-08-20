@@ -21,7 +21,7 @@ GitGPT 是一个基于 Flask 构建的 Web 应用程序，旨在通过 GPT 模�
 1. 克隆本仓库到本地：
 
     ```bash
-    git clone https://github.com/yourusername/GitGPT.git
+    git clone https://github.com/tamikip/GitGPT.git
     cd GitGPT
     ```
 
