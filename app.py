@@ -3,11 +3,15 @@ import requests
 import json
 from math import sqrt
 import re
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
-token = ""
-API_KEY = ""
-BASE_URL = ""
+
+load_dotenv()
+API_KEY = os.getenv('API_KEY')
+BASE_URL = os.getenv('BASE_URL')
+token = os.getenv('GITHUB_TOKEN')
 if_md = False
 
 
