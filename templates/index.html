@@ -5,50 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GITGPT</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles_index.css') }}">
+    <link rel="icon" href="static/logo.png" type="image/png">
 </head>
-<body class="index-body"> <!-- 添加一个特定的类来区分 index 页面 -->
+<body class="index-body">
     <div class="container">
         <div class="header">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            <a href="https://github.com/tamikip/GitGPT">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            </a>
             <h1>GITGPT</h1>
         </div>
-        <form id="search-form">
+        <form id="search-form" method="GET" action="/search">
             <input type="text" name="q" placeholder="输入描述内容..." class="search-box" required>
             <button type="submit" class="search-button">
                 <span class="button-text">搜索</span>
                 <span class="loader" style="display: none;"></span>
             </button>
+            <!-- 添加开关按钮 -->
+            <div class="switch-container">
+                <label class="switch">
+                    <input type="checkbox" id="exact-mode" name="if_md">
+                    <span class="slider"></span>
+                </label>
+                <span class="label-text">精确模式</span>
+            </div>
         </form>
+        <!-- 错误提示信息 -->
+        <div id="error-message" class="error-message">{{ error_message }}</div>
     </div>
     <script>
         document.getElementById('search-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const query = document.querySelector('input[name="q"]').value;
-
             // 显示加载动画
             document.querySelector('.button-text').style.display = 'none';
             document.querySelector('.loader').style.display = 'inline-block';
-
-            // 发起搜索请求
-            fetch(`/search?q=${encodeURIComponent(query)}`)
-                .then(response => {
-                    if (response.ok) {
-                        // 请求成功，打开新窗口
-                        window.open(`/search?q=${encodeURIComponent(query)}`, '_blank');
-                    } else {
-                        alert('搜索失败，请重试。');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('搜索失败，请重试。');
-                })
-                .finally(() => {
-                    // 隐藏加载动画
-                    document.querySelector('.button-text').style.display = 'inline';
-                    document.querySelector('.loader').style.display = 'none';
-                });
         });
+
+        // 如果有错误信息，则显示并在3秒后隐藏
+        const errorMessage = document.getElementById('error-message');
+        if (errorMessage.textContent.trim() !== '') {
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+        }
     </script>
 </body>
 </html>
