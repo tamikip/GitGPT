@@ -14,6 +14,16 @@ BASE_URL = os.getenv('BASE_URL')
 token = os.getenv('GITHUB_TOKEN')
 if_md = False
 
+# 是否打开github api 请求时 是否跳过ssl检查
+IS_GITHUB_API_VERIFY = os.getenv('IS_GITHUB_API_VERIFY')
+if IS_GITHUB_API_VERIFY:
+    if int(IS_GITHUB_API_VERIFY) == 1:
+        IS_GITHUB_API_VERIFY = True
+    else:
+        IS_GITHUB_API_VERIFY = False
+else:
+    IS_GITHUB_API_VERIFY = True
+
 
 def standardized_json(prompt):
     """此函数用于标准化ai生成的json"""
@@ -130,12 +140,12 @@ def search_repositories(keyword, model="name"):
     if token:
         headers["Authorization"] = f"token {token}"
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, verify=IS_GITHUB_API_VERIFY)
 
     if response.status_code == 200:
         return response.json().get("items", [])
     else:
-        print(f"Error: {response.status_code}")
+        app.logger.error(f"Error: {response.status_code}")
         return []
 
 
@@ -148,7 +158,7 @@ def search_repos_by_keyword(keyword):
     if token:
         headers["Authorization"] = f"token {token}"
 
-    response = requests.get(search_url, headers=headers)
+    response = requests.get(search_url, headers=headers, verify=IS_GITHUB_API_VERIFY)
 
     if response.status_code == 200:
         search_results = response.json()
@@ -166,7 +176,7 @@ def search_repos_by_keyword(keyword):
         matched_repos = json.dumps(matched_repos, indent=4, ensure_ascii=False)
         return matched_repos
     else:
-        print(f"Failed to search repositories: {response.status_code}")
+        app.logger.info(f"Failed to search repositories: {response.status_code}")
         return []
 
 
@@ -238,11 +248,25 @@ def search():
 
             final_json = merge_and_remove_duplicates(sorted_projects1, sorted_projects2)
         except Exception as e:
+            app.logger.error(e)
             final_json = [{"name": "没有找到匹配的仓库",
                            'description': '请你尝试换一种说法进行查找',
                            'url': 'index.html', 'score': 0}, ]
+    except requests.exceptions.SSLError as e:
+        app.logger.error("requests ssl error!")
+        return render_template(
+            "index.html",
+            error_message="向github发送请求时，出现ssl错误！",
+            user_input=user_input
+        )
     except Exception as e:
-        return render_template('index.html', error_message='内容无法识别！请重新输入！')
+        app.logger.error(e)
+        return render_template(
+            'index.html',
+            error_message='内容无法识别！请重新输入！',
+            user_input=user_input   # 返回用户上次输入，以免刷新导致数据丢失
+            )
+    app.logger.info(f"Number of returned results: {len(final_json)}")
     return render_template('results.html', results=final_json)
 
 
