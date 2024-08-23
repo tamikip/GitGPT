@@ -47,9 +47,14 @@ GitGPT 是一个基于 Flask 构建的 Web 应用程序，旨在通过 GPT 模�
     API_KEY=your_gpt_api_key
     BASE_URL=your_gpt_api_base_url
     GITHUB_TOKEN=your_github_token  # 可选
+    IS_GITHUB_API_VERIFY=number # 此处填写 1 或 0 (是/否)
     ```
 
-    请将 `your_gpt_api_key`、`your_gpt_api_base_url` 和 `your_github_token` 替换为你的实际 API 密钥和 GitHub Token。
+    请将 `your_gpt_api_key`、`your_gpt_api_base_url`、`your_github_token` 和 `number` 替换为你的实际 API 密钥和 GitHub Token。
+    - `API_KEY` GPT的api密钥
+    - `BASE_URL` GPT的api请求地址
+    - `GITHUB_TOKEN` github申请的token值（可选）
+    - `IS_GITHUB_API_VERIFY` 是否跳过ssl检查
 
 ## 使用
 

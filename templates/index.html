@@ -16,7 +16,7 @@
             <h1>GITGPT</h1>
         </div>
         <form id="search-form" method="GET" action="/search">
-            <input type="text" name="q" placeholder="输入描述内容..." class="search-box" required>
+            <input type="text" name="q" placeholder="输入描述内容..." class="search-box" required value="{{ user_input if user_input else '' }}">
             <button type="submit" class="search-button">
                 <span class="button-text">搜索</span>
                 <span class="loader" style="display: none;"></span>
